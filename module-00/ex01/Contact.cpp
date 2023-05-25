@@ -1,6 +1,31 @@
 #include "Contact.hpp"
 #include <iostream>
 
+std::string Contact::get_first_name () const
+{
+	return first_name_;
+};
+
+std::string Contact::get_last_name () const
+{
+	return last_name_;
+};
+
+std::string Contact::get_nickname () const
+{
+	return nickname_;
+};
+
+std::string Contact::get_phone_number () const
+{
+	return phone_number_;
+};
+
+std::string Contact::get_darkest_secret () const
+{
+	return "Sorry, I can't tell.";
+};
+
 void Contact::display_contact() {
 	std::cout << "First name : " << get_first_name() << std::endl;
 	std::cout << "Last name : " << get_last_name() << std::endl;

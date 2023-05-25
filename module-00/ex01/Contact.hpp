@@ -6,11 +6,11 @@
 
 class Contact {
 	public:
-	std::string get_first_name () const {return first_name_;};
-	std::string get_last_name () const {return last_name_;};
-	std::string get_nickname () const {return nickname_;};
-	std::string get_phone_number () const {return phone_number_;};
-	std::string get_darkest_secret () const {return "Sorry, I can't tell.";};
+	std::string get_first_name () const;
+	std::string get_last_name () const;
+	std::string get_nickname () const;
+	std::string get_phone_number () const;
+	std::string get_darkest_secret () const;
 
 	void set_contact();
 	void display_contact();
