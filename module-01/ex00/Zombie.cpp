@@ -14,7 +14,7 @@ Zombie::Zombie(std::string name_input) : name(name_input)
 {	
 }
 
-Zombie::Zombie() : name("<name>")
+Zombie::Zombie()
 {	
 }
 
