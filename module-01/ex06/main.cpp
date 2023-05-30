@@ -6,7 +6,7 @@ int main (int ac, char **av)
 {
 	if (ac != 2)
 	{
-		std::cout << "Invalid number of args." << std::endl;
+		std::cout << "If you want to complain, you should first learn to count." << std::endl;
 		return 1;
 	}
 	Norminette norminet;
