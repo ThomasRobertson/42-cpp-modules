@@ -17,5 +17,6 @@ class   Harl
 };
 
 typedef void(Harl::*FunctionPointer)();
+typedef Harl Norminette;
 
 #endif
