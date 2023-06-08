@@ -20,9 +20,6 @@ class ClapTrap
 		
 		// Getters / Setters
 		std::string get_name() const;
-		unsigned int get_healthPoint() const;
-		unsigned int get_energyPoint() const;
-		unsigned int get_attackDamage() const;
 
 		void attack(const std::string& target);
 		void takeDamage(unsigned int amount);
