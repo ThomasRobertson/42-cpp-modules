@@ -24,7 +24,7 @@ class Bureaucrat
 		
 		// Getters / Setters
 		unsigned int getGrade() const;
-		std::string getName() const;
+		const std::string getName() const;
 
 		// Exeptions
 		class GradeTooHighException : public std::exception
