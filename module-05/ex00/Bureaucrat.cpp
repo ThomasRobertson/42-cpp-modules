@@ -38,7 +38,7 @@ unsigned int Bureaucrat::getGrade() const
 	return _grade;
 }
 
-const std::string Bureaucrat::getName() const
+std::string Bureaucrat::getName() const
 {
 	return _name;
 }
