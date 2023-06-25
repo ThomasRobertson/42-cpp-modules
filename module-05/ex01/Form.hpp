@@ -35,7 +35,7 @@ class Form
 			virtual const char* what() const throw();
 		};
 
-		void beSigned(Bureaucrat bureaucrat);
+		void beSigned(Bureaucrat const & bureaucrat);
 		
 	private:
 		// Constructors

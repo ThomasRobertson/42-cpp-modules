@@ -84,7 +84,7 @@ bool Form::checkGrade(unsigned int grade, unsigned int min, unsigned int max)
 		return true;
 }
 
-void Form::beSigned(Bureaucrat bureaucrat)
+void Form::beSigned(Bureaucrat const &bureaucrat)
 {
 	checkGrade(bureaucrat.getGrade(), _gradeRequiredToSign);
 	_isSigned = true;
