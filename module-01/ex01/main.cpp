@@ -2,7 +2,8 @@
 
 int main()
 {
-	const std::string zombie1 = "Bob";
+	std::string zombie1 = "Bob";
+	zombie1 = zombie1 + "Toto";
 	const int size[] = {1, 2, 4, 8};
 
 	Zombie* new_horde;

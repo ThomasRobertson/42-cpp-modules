@@ -30,7 +30,6 @@ int main (int ac, char **av)
 	std::ofstream out_file(out_filename.c_str(), std::ios_base::out | std::ios_base::trunc);
 	if (!out_file.is_open())
 	{
-		in_file.close();
 		return 1;
 	}
 	Sed.exportToFile(out_file);
