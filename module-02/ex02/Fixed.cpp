@@ -137,7 +137,7 @@ Fixed &Fixed::operator--()
 Fixed Fixed::operator--(int)
 {
 	Fixed tmp(*this);
-	tmp.operator--();
+	this->operator--();
 	return tmp;
 }
 

@@ -5,6 +5,7 @@ int main( void )
 {
 	Fixed a(10);
 	Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
+	Fixed c(10.0f);
 
 	std::cout << std::endl << "-- COMPARISON --" << std::endl
 		<< "a : " << a << std::endl
@@ -14,7 +15,10 @@ int main( void )
 		<< "a >= b : " << bool(a >= b) << std::endl
 		<< "a <= b : " << bool(a <= b) << std::endl
 		<< "a == b : " << bool(a == b) << std::endl
-		<< "a != b : " << bool(a != b) << std::endl;
+		<< "a != b : " << bool(a != b) << std::endl
+		<< "a >= c : " << bool(a >= c) << std::endl
+		<< "a <= c : " << bool(a <= c) << std::endl
+		<< "a == c : " << bool(a == c) << std::endl;
 
 	a = 2.65f;
 	std::cout << std::endl << "-- ARITHMETIC --" << std::endl
@@ -36,6 +40,18 @@ int main( void )
 		<< "a : " << a << std::endl
 		<< "a-- : " << a-- << std::endl
 		<< "a : " << a << std::endl;
+
+	int d = 0;
+	std::cout << std::endl << "-- INCREMENT / DECREMENT --" << std::endl
+		<< "d : " << d << std::endl
+		<< "++d : " << ++d << std::endl
+		<< "d : " << d << std::endl
+		<< "d++ : " << d++ << std::endl
+		<< "d : " << d << std::endl
+		<< "--d : " << --d << std::endl
+		<< "d : " << d << std::endl
+		<< "d-- : " << d-- << std::endl
+		<< "d : " << d << std::endl;
 
 Fixed a1(25.24f);
 Fixed a2(12);
