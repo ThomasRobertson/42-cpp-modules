@@ -18,7 +18,7 @@ class DiamondTrap : public FragTrap, public ScavTrap
 		~DiamondTrap();
 		
 		// Operators
-		//DiamondTrap & operator=(const DiamondTrap &assign);
+		DiamondTrap & operator=(const DiamondTrap &assign);
 		
 		// Getters / Setters
 		std::string get_name() const;

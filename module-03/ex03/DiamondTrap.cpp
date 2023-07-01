@@ -3,13 +3,12 @@
 const std::string DiamondTrap::_className = "DiamondTrap";
 
 // Constructors
-DiamondTrap::DiamondTrap()
+DiamondTrap::DiamondTrap() : ClapTrap("SEGFAULT 5000_clap_name")
 {
 	_name = "SEGFAULT 5000";
 	_healthPoint = FragTrap::_healthPoint;
 	_energyPoint = ScavTrap::_energyPoint;
 	_attackDamage = FragTrap::_attackDamage;
-	ClapTrap::_name = "SEGFAULT 5000_clap_name";
 	std::cout << "Default Constructor called of " << _className << std::endl;
 }
 
@@ -35,19 +34,19 @@ DiamondTrap::~DiamondTrap()
 }
 
 
-// // Operators
-// DiamondTrap & DiamondTrap::operator=(const DiamondTrap &assign)
-// {
-// 	if (this != &assign)
-// 	{
-// 		_name = assign._name;
-// 		_healthPoint = assign._healthPoint;
-// 		_energyPoint = assign._energyPoint;
-// 		_attackDamage = assign._attackDamage;
-// 		ClapTrap::_name = assign.ClapTrap::_name;
-// 	}
-// 	return *this;
-// }
+// Operators
+DiamondTrap & DiamondTrap::operator=(const DiamondTrap &assign)
+{
+	if (this != &assign)
+	{
+		_name = assign._name;
+		_healthPoint = assign._healthPoint;
+		_energyPoint = assign._energyPoint;
+		_attackDamage = assign._attackDamage;
+		ClapTrap::_name = assign.ClapTrap::_name;
+	}
+	return *this;
+}
 
 
 // Getters / Setters
