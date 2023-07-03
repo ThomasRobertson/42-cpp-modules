@@ -16,9 +16,10 @@
 
 NAME= Template
 
-CC= clang++
-CXXFLAGS= -Wall -Werror -Wextra -g3 -std=c++98 $(INCLUDE)
+CXX= c++
+CXXFLAGS= -Wall -Werror -Wextra -g3 -std=c++98 $(DEPFLAGS) $(INCLUDE)
 LDFLAGS= 
+DEPFLAGS= -MMD -MP
 
 INCLUDE = -I$(INCLUDE_DIR)
 
@@ -34,7 +35,8 @@ SRC_FILE=	\
 			main.cpp
 
 SRC=		$(addprefix $(SRC_DIR), $(SRC_FILE))
-OBJ=		$(addprefix obj/, ${SRC_FILE:.cpp=.o})
+OBJ=		$(addprefix $(OBJ_DIR), ${SRC_FILE:.cpp=.o})
+DEP=		$(addprefix $(OBJ_DIR), ${OBJ:.o=.d})
 
 # **************************************************************************** #
 #                                HEADER CONFIG                                 #
@@ -70,7 +72,7 @@ HEADER =		@echo "${COLOR_CYAN}\
 HEADER_VAR =	@echo "${COLOR_CYAN}\
 				\n \
 				BINARY NAME: $(NAME) \
-				\n CC: $(CC) \
+				\n CXX: $(CXX) \
 				\n CXXFLAGS: $(CXXFLAGS) \
 				\n LDFLAGS: $(LDFLAGS) \
 				\n${COLOR_END}"
@@ -87,7 +89,7 @@ $(NAME): FORCE header
 	@$(MAKE) --no-print-directory --silent $(OBJ)
 	@echo -n "${COLOR_YELLOW}]\n\n${COLOR_END}"
 	@echo -n "${COLOR_GREEN}Linking : "
-	@$(CC) -o $@ $(OBJ) $(LDFLAGS)
+	@$(CXX) -o $@ $(OBJ) $(LDFLAGS)
 	@echo "${COLOR_GREEN}Done. ${COLOR_END}"
 
 FORCE: ;
@@ -96,14 +98,14 @@ bonus: $(NAME)
 
 $(OBJ): $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	@echo -n "${COLOR_YELLOW}#${COLOR_END}"
-	@mkdir -p $(@D)
-	@$(CC) $(CXXFLAGS) -c $< -o $@
+	@mkdir -p $(OBJ_DIR)
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 header:
 	$(HEADER)
 
 cleanobj:
-	@rm -f $(OBJ)
+	@rm -f $(OBJ) $(DEP)
 
 cleanobjdir: cleanobj
 	@rm -rf $(OBJ_DIR)
@@ -119,5 +121,7 @@ fclean: clean
 	@rm -f $(NAME) $(NAME_BONUS)
 
 re: header fclean all
+
+-include $(OBJ:.o=.d)
 
 .PHONY: all clean fclean re header cleanobj bonus FORCE cleanobjdir
