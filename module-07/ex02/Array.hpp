@@ -20,6 +20,7 @@ class Array
 		// Operators
 		Array & operator=(const Array &assign);
 		T & operator[](size_t idx);
+		T const & operator[](size_t idx) const;
 		//T & operator[]() const;
 		
 		size_t size() const;

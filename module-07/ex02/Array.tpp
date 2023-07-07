@@ -2,10 +2,8 @@
 
 // Constructors
 template <typename T>
-Array<T>::Array()
+Array<T>::Array() : _begin(NULL), _size(0)
 {
-	_begin = NULL;
-	_size = 0;
 }
 
 template <typename T>
@@ -16,9 +14,8 @@ Array<T>::Array(unsigned int n)
 }
 
 template <typename T>
-Array<T>::Array(const Array &copy)
+Array<T>::Array(const Array &copy) : _begin(NULL)
 {
-	_begin = NULL;
 	*this = copy;
 }
 
@@ -45,6 +42,14 @@ Array<T> & Array<T>::operator=(const Array &assign)
 
 template <typename T>
 T & Array<T>::operator[](size_t idx)
+{
+	if (idx >= _size)
+		throw std::out_of_range("Out of range");
+	return *(_begin + idx);
+}
+
+template <typename T>
+T const & Array<T>::operator[](size_t idx) const
 {
 	if (idx >= _size)
 		throw std::out_of_range("Out of range");
