@@ -8,8 +8,26 @@ int main(int, char**)
     Array<int> numbers(MAX_VAL);
     int mirror[MAX_VAL];
 
+	{
+		Array<int> numbers_empty;
+		try
+    	{
+    	    numbers_empty[0] = 0;
+    	}
+    	catch(const std::exception& e)
+    	{
+    	    std::cerr << "Empty array : " <<e.what() << '\n';
+    	}
+		assert(numbers_empty.size() == 0);
+	}
 	// Testing size
 	assert(numbers.size() == MAX_VAL);
+
+	// Testing unintialized array
+    for (size_t i = 0; i < numbers.size(); i++)
+    {
+        assert(numbers[i] == 0);
+    }
 
 	// Filling arrays with const
     srand(time(NULL));
@@ -49,7 +67,7 @@ int main(int, char**)
     }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        std::cerr << "numbers[-2] : " << e.what() << '\n';
     }
     try
     {
@@ -57,7 +75,7 @@ int main(int, char**)
     }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        std::cerr << "numbers[MAX_VAL] : " << e.what() << '\n';
     }
 
     for (size_t i = 0; i < numbers.size(); i++)
