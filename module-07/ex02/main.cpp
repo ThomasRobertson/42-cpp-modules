@@ -1,25 +1,26 @@
 #include <iostream>
 #include <Array.hpp>
+#include <cassert>
 
 #define MAX_VAL 750
 int main(int, char**)
 {
     Array<int> numbers(MAX_VAL);
-    int* mirror = new int[MAX_VAL];
+    int mirror[MAX_VAL];
+
+	// Testing size
+	assert(numbers.size() == MAX_VAL);
+
+	// Filling arrays with const
     srand(time(NULL));
-    for (int i = 0; i < MAX_VAL; i++)
+    for (size_t i = 0; i < numbers.size(); i++)
     {
         const int value = rand();
         numbers[i] = value;
         mirror[i] = value;
     }
-    //SCOPE
-    {
-        Array<int> tmp = numbers;
-        Array<int> test(tmp);
-    }
 
-    for (int i = 0; i < MAX_VAL; i++)
+    for (size_t i = 0; i < numbers.size(); i++)
     {
         if (mirror[i] != numbers[i])
         {
@@ -27,6 +28,21 @@ int main(int, char**)
             return 1;
         }
     }
+
+    // Testing scope
+	numbers[0] = 0;
+    {
+		
+        Array<int> tmp = numbers;
+        Array<int> test(tmp);
+		tmp[0] = 1;
+		assert(numbers[0] == 0);
+		test[0] = 2;
+		assert(numbers[0] == 0);
+    }
+	assert(numbers[0] == 0);
+
+	// Testing out of range
     try
     {
         numbers[-2] = 0;
@@ -44,10 +60,12 @@ int main(int, char**)
         std::cerr << e.what() << '\n';
     }
 
-    for (int i = 0; i < MAX_VAL; i++)
+    for (size_t i = 0; i < numbers.size(); i++)
     {
         numbers[i] = rand();
     }
-    delete [] mirror;//
+	const int i = numbers[0];
+	if (i != numbers[0])
+		std::cout << "Not the same number\n";
     return 0;
 }
