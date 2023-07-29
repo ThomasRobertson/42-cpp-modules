@@ -16,7 +16,7 @@
 
 NAME= MutantStack
 
-CXX= clang++
+CXX= c++
 CXXFLAGS= -Wall -Werror -Wextra -g3 -std=c++98 $(DEPFLAGS) $(INCLUDE)
 LDFLAGS= 
 DEPFLAGS= -MMD -MP
