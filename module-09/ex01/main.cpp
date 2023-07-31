@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <cassert>
 
-#define DEBUG
+//#define DEBUG
 
 int main (int ac, char **av)
 {

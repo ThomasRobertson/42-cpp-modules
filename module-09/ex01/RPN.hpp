@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <deque>
 #include <string>
 #include <iostream>
 #include <exception>
@@ -19,8 +19,8 @@ class RPN
 	private:
 	RPN();
 
-	typedef std::vector<std::string> RPN_vec_t;
-	typedef std::stack<int, std::vector<int> > RPN_t;
+	typedef std::deque<std::string> RPN_vec_t;
+	typedef std::stack<int> RPN_t;
 
 	RPN_vec_t _vec;
 	RPN_t _stack;
