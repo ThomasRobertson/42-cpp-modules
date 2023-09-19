@@ -10,7 +10,7 @@ class PmergeMe
 {
 	public :
 	PmergeMe();
-	PmergeMe(char *av);
+    PmergeMe(char *av);
 	PmergeMe(const PmergeMe & copy);
 	~PmergeMe();
 	PmergeMe & operator=(const PmergeMe & assign);
@@ -20,6 +20,6 @@ class PmergeMe
 	void sort();
 	
 	private :
-	TPmergeMe<std::list<unsigned int> > _values_list; // a modifier !
-	TPmergeMe<std::vector<unsigned int> > _value_vector;
+	TPmergeMe<std::list<value_type> > _values_list; // a modifier !
+	TPmergeMe<std::vector<value_type> > _value_vector;
 };

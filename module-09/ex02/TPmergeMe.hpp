@@ -28,10 +28,12 @@ class TPmergeMe
 	T _values;
 
 	T str2nbr(std::string s);
-	std::vector<std::pair<T, T> > create_pairs(const T & value);
-	T & insertion_sort_pairs(T & values, T::size_type n);
+    template <typename U>
+	std::vector<std::pair<U, U> > create_pairs(const U & value);
+	//T & insertion_sort_pairs(T & values, T::size_type n);
 	bool comp(const value_type & a, const value_type & b);
-	bool comp(const T & a, const T & b);
+    template <class U>
+	bool comp(const U & a, const U & b);
 };
 
 #include "TPmergeMe.tpp"

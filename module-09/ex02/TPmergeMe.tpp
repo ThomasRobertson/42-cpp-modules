@@ -1,3 +1,4 @@
+#include <algorithm> //à enlever
 #include "TPmergeMe.hpp"
 
 template<class T>
@@ -11,20 +12,21 @@ TPmergeMe<T> & TPmergeMe<T>::operator=(const TPmergeMe & assign)
 }
 
 template<class T>
-std::vector<std::pair<T, T> > TPmergeMe<T>::create_pairs(const T & value)
+template<class U>
+std::vector<std::pair<U, U> > TPmergeMe<T>::create_pairs(const U & value)
 {
 	//pair_t pairs(value.size() / 2);
-	std::vector<std::pair<T, T> > pairs;
-	for (typename T::const_iterator it = value.begin(); it != value.end(); it++)
+	std::vector<std::pair<U, U> > pairs;
+	for (typename U::const_iterator it = value.begin(); it != value.end(); it++)
 	{
-		typename T::value_type first_value = *it;
+		typename U::value_type first_value = *it;
 		it++;
 		if (it == value.end())
 			throw std::runtime_error("Error: creating pair with odd numbers.");
-		typename T::value_type second_value = *it;
+		typename U::value_type second_value = *it;
 		if (comp(first_value, second_value))
 		{
-			typename T::value_type tmp = first_value;
+			typename U::value_type tmp = first_value;
 			first_value = second_value;
 			second_value = tmp;
 		}
@@ -33,6 +35,7 @@ std::vector<std::pair<T, T> > TPmergeMe<T>::create_pairs(const T & value)
 	return pairs;
 }
 
+/*
 template<class T>
 T & TPmergeMe<T>::insertion_sort_pairs(T & values, typename T::size_type n)
 {
@@ -47,7 +50,15 @@ T & TPmergeMe<T>::insertion_sort_pairs(T & values, typename T::size_type n)
 		values.insert(it, last_value);
 	}
 	return values;
-}
+} */
+
+template <class T, class Pred = std::less<T> >
+struct sort_pair_first {
+    bool operator()(const std::pair<T,T>&left, const std::pair<T,T>&right) {
+        Pred p;
+        return p(left.first, right.first);
+    }
+};
 
 template<class T>
 T TPmergeMe<T>::sort_list(T & value)
@@ -63,7 +74,7 @@ T TPmergeMe<T>::sort_list(T & value)
 	}
 	typedef std::vector<std::pair<T, T> > pair_t;
 	pair_t pairs = create_pairs(value);
-	//sort pairs
+    std::sort(pairs.begin(), pairs.end(), sort_pair_first<int>());
 	
 	std::list<value_type> main_list;
 	std::list<value_type> pend_list;
@@ -145,7 +156,8 @@ bool TPmergeMe<T>::comp(const value_type & a, const value_type & b)
 }
 
 template<class T>
-bool TPmergeMe<T>::comp(const T & a, const T & b)
+template<class U>
+bool TPmergeMe<T>::comp(const U & a, const U & b)
 {
-	comp(a->first, b->first);
+	return comp(a->first, b->first);
 }
