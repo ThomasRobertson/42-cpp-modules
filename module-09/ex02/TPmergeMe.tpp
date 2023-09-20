@@ -52,6 +52,50 @@ T & TPmergeMe<T>::insertion_sort_pairs(T & values, typename T::size_type n)
 	return values;
 } */
 
+template<class T>
+template<class U>
+typename U::iterator TPmergeMe<T>::binary_search(U & list, typename U::value_type key,
+                                                   typename U::iterator it_mid,
+                                                   size_t segment_size)
+{
+    if (segment_size == 1)
+        return it_mid;
+    else if (comp(*it_mid, key))
+    {
+        segment_size /= 2;
+        for (size_t i = 0; i != segment_size; i++)
+            it_mid++;
+        return binary_search(list, key, it_mid, segment_size);
+    }
+    else
+    {
+        segment_size /= 2;
+        for (size_t i = 0; i != segment_size; i++)
+            it_mid--;
+        return binary_search(list, key, it_mid, segment_size);
+    }
+}
+
+template<class T>
+template<class U>
+void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
+{
+    size_t total_size;
+    typename U::value_type key;
+    typename U::iterator pos_insert;
+    typename U::iterator it_mid;
+    for (typename U::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
+    {
+        total_size = main_list.size();
+        key = *it_pend;
+        it_mid = main_list.begin();
+        for (size_t i = 0; i != total_size / 2; i++)
+            it_mid++;
+        pos_insert = binary_search(main_list, key, it_mid, total_size / 2);
+        main_list.insert(pos_insert, key);
+    }
+}
+
 template <class T, class Pred = std::less<T> >
 struct sort_pair_first {
     bool operator()(const std::pair<T,T>&left, const std::pair<T,T>&right) {
@@ -92,6 +136,9 @@ T TPmergeMe<T>::sort_list(T & value)
 		}
 	}
 
+    binary_sort(main_list, pend_list);
+    return (main_list);
+
 /* 	T::iterator itp = pend_list.begin();
 	T::iterator it = main_list.begin();
 
@@ -126,13 +173,14 @@ T TPmergeMe<T>::sort_list(T & value)
 template<class T>
 void TPmergeMe<T>::push_back(const std::string & value_str)
 {
-	_values.push_back(str2nbr(value_str));
+	_values.push_back(str2nbr<value_type>(value_str));
 }
 
 template<class T>
-T TPmergeMe<T>::str2nbr(std::string s)
+template<class U>
+U TPmergeMe<T>::str2nbr(std::string const & s)
 {
-	T i;
+	U i;
     std::stringstream ss;
 	ss << s;
     ss >> i;
@@ -147,6 +195,7 @@ template<class T>
 T TPmergeMe<T>::sort()
 {
 	sort_list(_values);
+    return (_values);
 }
 
 template<class T>
