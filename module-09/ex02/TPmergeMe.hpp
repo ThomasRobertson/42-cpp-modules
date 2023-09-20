@@ -20,7 +20,8 @@ class TPmergeMe
 	TPmergeMe(const TPmergeMe & copy) {*this = copy;}
 	~TPmergeMe() {}
 	TPmergeMe & operator=(const TPmergeMe & assign);
-	T sort_list(T & value);
+    template<class U>
+	U sort_list(U & value);
 	T sort();
 	void push_back(const std::string & value_str);
 
@@ -34,6 +35,8 @@ class TPmergeMe
 	bool comp(const value_type & a, const value_type & b);
     template <class U>
 	bool comp(const U & a, const U & b);
+    template<class U>
+    U binary_sort(U & main_list, U & pend_list);
 };
 
 #include "TPmergeMe.tpp"
