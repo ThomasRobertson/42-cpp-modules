@@ -24,14 +24,15 @@ class TPmergeMe
 	U sort_list(U & value);
 	T sort();
 	void push_back(const std::string & value_str);
+    template<class U>
+    static U str2nbr(std::string const & s);
+    T get_values() const {return _values;}
 
 	private :
 	T _values;
 
-    template<class U>
-	U str2nbr(std::string const & s);
     template <typename U>
-	std::vector<std::pair<U, U> > create_pairs(const U & value);
+    std::vector<std::pair<typename U::value_type, typename U::value_type> > create_pairs(const U & value);
 	//T & insertion_sort_pairs(T & values, T::size_type n);
 	bool comp(const value_type & a, const value_type & b);
     template <class U>

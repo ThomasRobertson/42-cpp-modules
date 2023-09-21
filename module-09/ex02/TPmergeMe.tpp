@@ -13,10 +13,10 @@ TPmergeMe<T> & TPmergeMe<T>::operator=(const TPmergeMe & assign)
 
 template<class T>
 template<class U>
-std::vector<std::pair<U, U> > TPmergeMe<T>::create_pairs(const U & value)
+std::vector<std::pair<typename U::value_type, typename U::value_type> > TPmergeMe<T>::create_pairs(const U & value)
 {
 	//pair_t pairs(value.size() / 2);
-	std::vector<std::pair<U, U> > pairs;
+    std::vector<std::pair<typename U::value_type, typename U::value_type> > pairs;
 	for (typename U::const_iterator it = value.begin(); it != value.end(); it++)
 	{
 		typename U::value_type first_value = *it;
@@ -35,31 +35,23 @@ std::vector<std::pair<U, U> > TPmergeMe<T>::create_pairs(const U & value)
 	return pairs;
 }
 
-/*
-template<class T>
-T & TPmergeMe<T>::insertion_sort_pairs(T & values, typename T::size_type n)
-{
-	if (n < 1)
-    	return values;
-	else
-	{
-		insertion_sort_pairs(values, n - 1);
-		typename T::iterator it = values.end();
-		value_type last_value = *it;
-		it--;
-		values.insert(it, last_value);
-	}
-	return values;
-} */
-
 template<class T>
 template<class U>
 typename U::iterator TPmergeMe<T>::binary_search(U & list, typename U::value_type key,
                                                    typename U::iterator it_mid,
                                                    size_t segment_size)
 {
-    if (segment_size == 1)
-        return it_mid;
+    if (segment_size == 0)
+    {
+        if (!comp(*it_mid, key))
+            return it_mid;
+        else
+        {
+            it_mid--;
+            return it_mid;
+        }
+    }
+
     else if (comp(*it_mid, key))
     {
         segment_size /= 2;
@@ -96,14 +88,14 @@ void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
     }
 }
 
-template <class T, class Pred = std::less<T> >
+/*template <class T, class Pred = std::less<T> >
 struct sort_pair_first {
     bool operator()(const std::pair<T,T>&left, const std::pair<T,T>&right) {
-        Pred p;
-        return p(left.first, right.first);
+        return TPmergeMe<T>::comp(left.first, right.first);
     }
-};
+}; */
 
+/*
 template<class T>
 template<class U>
 U TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
@@ -123,14 +115,14 @@ U TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
             total_size = middle;
         n++;
     }
-}
+} */
 
 template<class T>
 template<class U>
 U TPmergeMe<T>::sort_list(U & value)
 {
 	bool is_even = true;
-	typename T::value_type straggler;
+	typename U::value_type straggler;
 
 	if (value.size() % 2 != 0)
 	{
@@ -138,16 +130,16 @@ U TPmergeMe<T>::sort_list(U & value)
 		straggler = value.back();
 		value.pop_back();
 	}
-	typedef std::vector<std::pair<U, U> > pair_t;
+	typedef std::vector<std::pair<typename U::value_type, typename U::value_type> > pair_t;
 	pair_t pairs = create_pairs(value);
-    std::sort(pairs.begin(), pairs.end(), sort_pair_first<int>());
+    std::sort(pairs.begin(), pairs.end());
 	
-	T main_list;
-	T pend_list;
+	U main_list;
+	U pend_list;
 	{
 		typename pair_t::iterator it = pairs.begin();
-		main_list.push_back(*(it->second));
-		main_list.push_back(*(it->first));
+		main_list.push_back(it->second);
+		main_list.push_back(it->first);
 		it++;
 		while (it != pairs.end())
 		{
@@ -158,6 +150,12 @@ U TPmergeMe<T>::sort_list(U & value)
 	}
 
     binary_sort(main_list, pend_list);
+    if (!is_even)
+    {
+        U straggler_list;
+        straggler_list.push_back(straggler);
+        binary_sort(main_list, straggler_list);
+    }
     return (main_list);
 
 /* 	T::iterator itp = pend_list.begin();
@@ -215,8 +213,9 @@ U TPmergeMe<T>::str2nbr(std::string const & s)
 template<class T>
 T TPmergeMe<T>::sort()
 {
-	sort_list(_values);
-    return (_values);
+    T values = sort_list(_values);
+    _values = values;
+    return (values);
 }
 
 template<class T>
