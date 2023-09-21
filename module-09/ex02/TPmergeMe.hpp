@@ -28,7 +28,8 @@ class TPmergeMe
 	private :
 	T _values;
 
-	T str2nbr(std::string s);
+    template<class U>
+	U str2nbr(std::string const & s);
     template <typename U>
 	std::vector<std::pair<U, U> > create_pairs(const U & value);
 	//T & insertion_sort_pairs(T & values, T::size_type n);
@@ -36,7 +37,11 @@ class TPmergeMe
     template <class U>
 	bool comp(const U & a, const U & b);
     template<class U>
-    U binary_sort(U & main_list, U & pend_list);
+    void binary_sort(U &main_list, U &pend_list);
+    template<class U>
+    typename U::iterator binary_search(U & list, typename U::value_type key,
+                                                       typename U::iterator it_mid,
+                                                       size_t segment_size);
 };
 
 #include "TPmergeMe.tpp"
