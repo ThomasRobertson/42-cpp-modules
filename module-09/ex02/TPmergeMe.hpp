@@ -5,16 +5,12 @@
 #include <sstream>
 #include <iostream>
 
-//template<typename T = std::list<unsigned int> >
-
 typedef unsigned int value_type;
-//typedef std::list<value_type> T;
 
 template <typename T = std::list<value_type> >
 class TPmergeMe
 {
 	public :
-	//typedef std::vector<std::pair<value_type, value_type> > pair_t;
 	TPmergeMe() {}
 	TPmergeMe(const T & value) : _values(value) {}
 	TPmergeMe(const TPmergeMe & copy) {*this = copy;}
@@ -23,9 +19,6 @@ class TPmergeMe
     template<class U>
 	U sort_list(U & value);
 	T sort();
-	void push_back(const std::string & value_str);
-    template<class U>
-    static U str2nbr(std::string const & s);
     T get_values() const {return _values;}
 
 	private :
@@ -33,7 +26,6 @@ class TPmergeMe
 
     template <typename U>
     std::vector<std::pair<typename U::value_type, typename U::value_type> > create_pairs(const U & value);
-	//T & insertion_sort_pairs(T & values, T::size_type n);
 	bool comp(const value_type & a, const value_type & b);
     template <class U>
 	bool comp(const U & a, const U & b);

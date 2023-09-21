@@ -39,18 +39,6 @@ void PmergeMe::get_values(char **av)
         lst.push_back(strtol(av[i], NULL, 10));
     }
     _values_list = lst;
-    /*
-	std::string values(av);
-	size_t pos;
-
-	while ((pos = values.find(' ')) != std::string::npos)
-	{
-		_value_vector.push_back(values.substr(0, pos));
-		_values_list.push_back(strtol(values.substr(0, pos).c_str(), NULL, 0));
-		values.erase(0, pos + 1);
-	}
-	_value_vector.push_back(values);
-	_values_list.push_back(values); */
 }
 
 bool PmergeMe::validate_values(char *av)

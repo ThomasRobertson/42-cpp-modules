@@ -15,7 +15,6 @@ template<class T>
 template<class U>
 std::vector<std::pair<typename U::value_type, typename U::value_type> > TPmergeMe<T>::create_pairs(const U & value)
 {
-	//pair_t pairs(value.size() / 2);
     std::vector<std::pair<typename U::value_type, typename U::value_type> > pairs;
 	for (typename U::const_iterator it = value.begin(); it != value.end(); it++)
 	{
@@ -88,35 +87,6 @@ void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
     }
 }
 
-/*template <class T, class Pred = std::less<T> >
-struct sort_pair_first {
-    bool operator()(const std::pair<T,T>&left, const std::pair<T,T>&right) {
-        return TPmergeMe<T>::comp(left.first, right.first);
-    }
-}; */
-
-/*
-template<class T>
-template<class U>
-U TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
-{
-    typename U::value_type value = *(pend_list.begin());
-    size_t total_size = main_list.size();
-    size_t n = 0;
-    while (n < total_size)
-    {
-        size_t middle = (n + total_size) / 2;
-        typename U::iterator it = main_list.begin();
-        for (size_t i = 0; i != middle; i++)
-            it++;
-        if (comp(value, *it))
-            n = middle + 1;
-        else
-            total_size = middle;
-        n++;
-    }
-} */
-
 template<class T>
 template<class U>
 U TPmergeMe<T>::sort_list(U & value)
@@ -157,57 +127,6 @@ U TPmergeMe<T>::sort_list(U & value)
         binary_sort(main_list, straggler_list);
     }
     return (main_list);
-
-/* 	T::iterator itp = pend_list.begin();
-	T::iterator it = main_list.begin();
-
-	while (itp != pend_list.end() && it != main_list.end())
-	{
-		std::cout << "[" << *it << ";" << *itp << "]\n";
-
-		if (itp != pend_list.end())
-			itp++;
-		if (it != main_list.end())
-			it++;
-	} */
-	std::cout << "TOTO\n";
-	main_list = sort_list(main_list);
-/* 	itp = pend_list.begin();
-	it = main_list.begin();
-
-	while (itp != pend_list.end() && it != main_list.end())
-	{
-		std::cout << "[" << *it << ";" << *itp << "]\n";
-
-		if (itp != pend_list.end())
-			itp++;
-		if (it != main_list.end())
-			it++;
-	} */
-
-	(void)is_even;
-	(void)straggler;
-}
-
-template<class T>
-void TPmergeMe<T>::push_back(const std::string & value_str)
-{
-	_values.push_back(str2nbr<value_type>(value_str));
-}
-
-template<class T>
-template<class U>
-U TPmergeMe<T>::str2nbr(std::string const & s)
-{
-	U i;
-    std::stringstream ss;
-	ss << s;
-    ss >> i;
-    if (ss.fail())
-        throw std::runtime_error("Error: cannot convert value, invalid input.");
-/* 	else if (!s.empty())
-		throw std::runtime_error("Error: str should be empty."); */
-    return i;
 }
 
 template<class T>
