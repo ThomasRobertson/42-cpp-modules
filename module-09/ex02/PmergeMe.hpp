@@ -24,5 +24,12 @@ class PmergeMe
 	TPmergeMe<std::vector<value_type> > _value_vector;
 
     template <class T>
-    void print_value(T value);
+    void print_value(T value)
+    {
+        for (typename T::iterator it = value.begin(); it != value.end(); it++)
+        {
+            std::cout << *it << " ";
+        }
+        std::cout << std::endl;
+    }
 };

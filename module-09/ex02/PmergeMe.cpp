@@ -47,16 +47,6 @@ bool PmergeMe::validate_values(char *av)
 	return true;
 }
 
-template <class T>
-void PmergeMe::print_value(T value)
-{
-    for (typename T::iterator it = value.begin(); it != value.end(); it++)
-    {
-        std::cout << *it << " ";
-    }
-    std::cout << std::endl;
-}
-
 void PmergeMe::sort()
 {
 	//_value_vector.sort_list();
