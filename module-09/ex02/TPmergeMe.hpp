@@ -28,7 +28,9 @@ class TPmergeMe
     std::vector<std::pair<typename U::value_type, typename U::value_type> > create_pairs(const U & value);
 	bool comp(const value_type & a, const value_type & b);
     template <class U>
-	bool comp(const U & a, const U & b);
+	bool comp(const std::pair<U,U> & a, const std::pair<U,U> & b);
+    template<class U>
+    bool comp(const std::pair<value_type,value_type> & a, const std::pair<value_type,value_type> & b);
     template<class U>
     void binary_sort(U &main_list, U &pend_list);
     template<class U>

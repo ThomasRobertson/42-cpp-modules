@@ -22,10 +22,10 @@ std::vector<std::pair<typename U::value_type, typename U::value_type> > TPmergeM
 		it++;
 		if (it == value.end())
 			throw std::runtime_error("Error: creating pair with odd numbers.");
-		typename U::value_type second_value = *it;
+        typename U::value_type second_value = *it;
 		if (comp(first_value, second_value))
 		{
-			typename U::value_type tmp = first_value;
+            typename U::value_type tmp = first_value;
 			first_value = second_value;
 			second_value = tmp;
 		}
@@ -96,13 +96,16 @@ U TPmergeMe<T>::sort_list(U & value)
 
 	if (value.size() % 2 != 0)
 	{
+        if (value.size() == 1)
+            return value;
 		is_even = false;
 		straggler = value.back();
 		value.pop_back();
 	}
 	typedef std::vector<std::pair<typename U::value_type, typename U::value_type> > pair_t;
 	pair_t pairs = create_pairs(value);
-    std::sort(pairs.begin(), pairs.end());
+    //std::sort(pairs.begin(), pairs.end());
+    sort_list(pairs);
 	
 	U main_list;
 	U pend_list;
@@ -145,7 +148,15 @@ bool TPmergeMe<T>::comp(const value_type & a, const value_type & b)
 
 template<class T>
 template<class U>
-bool TPmergeMe<T>::comp(const U & a, const U & b)
+bool TPmergeMe<T>::comp(const std::pair<U,U> & a, const std::pair<U,U> & b)
 {
-	return comp(a->first, b->first);
+    //return a < b;
+	return comp(a.first, b.first);
+}
+
+template<class T>
+template<class U>
+bool TPmergeMe<T>::comp(const std::pair<value_type,value_type> & a, const std::pair<value_type,value_type> & b)
+{
+    return a.first < b.first;
 }
