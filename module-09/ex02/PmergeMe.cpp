@@ -33,7 +33,7 @@ PmergeMe & PmergeMe::operator=(const PmergeMe & assign)
 void PmergeMe::get_values(char **av)
 {
     std::list<value_type> lst;
-    for (size_t i = 0; av[i]; i++)
+    for (size_t i = 1; av[i]; i++)
     {
         validate_values(av[i]);
         lst.push_back(strtol(av[i], NULL, 10));
