@@ -40,13 +40,13 @@ typename U::iterator TPmergeMe<T>::binary_search(U & list, typename U::value_typ
                                                    typename U::iterator it_mid,
                                                    size_t segment_size)
 {
-    if (segment_size == 0)
+    if (segment_size <= 1)
     {
-        if (!comp(*it_mid, key))
+        if (comp(*it_mid, key))
             return it_mid;
         else
         {
-            it_mid--;
+            it_mid++;
             return it_mid;
         }
     }
@@ -55,14 +55,14 @@ typename U::iterator TPmergeMe<T>::binary_search(U & list, typename U::value_typ
     {
         segment_size /= 2;
         for (size_t i = 0; i != segment_size; i++)
-            it_mid++;
+            it_mid--;
         return binary_search(list, key, it_mid, segment_size);
     }
     else
     {
         segment_size /= 2;
         for (size_t i = 0; i != segment_size; i++)
-            it_mid--;
+            it_mid++;
         return binary_search(list, key, it_mid, segment_size);
     }
 }
@@ -71,6 +71,11 @@ template<class T>
 template<class U>
 void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
 {
+    /*if (main_list.size() == 0)
+    {
+        main_list.push_back(pend_list.front());
+        pend_list.erase(pend_list.begin());
+    }*/
     size_t total_size;
     typename U::value_type key;
     typename U::iterator pos_insert;
@@ -104,8 +109,10 @@ U TPmergeMe<T>::sort_list(U & value)
 	}
 	typedef std::vector<std::pair<typename U::value_type, typename U::value_type> > pair_t;
 	pair_t pairs = create_pairs(value);
-    //std::sort(pairs.begin(), pairs.end());
-    sort_list(pairs);
+    std::sort(pairs.begin(), pairs.end());
+    //pair_t sorted_pairs;
+    //binary_sort(sorted_pairs, pairs);
+    //pairs = sorted_pairs;
 	
 	U main_list;
 	U pend_list;
