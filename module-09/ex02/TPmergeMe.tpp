@@ -36,34 +36,52 @@ std::vector<std::pair<typename U::value_type, typename U::value_type> > TPmergeM
 
 template<class T>
 template<class U>
-typename U::iterator TPmergeMe<T>::binary_search(U & list, typename U::value_type key,
-                                                   typename U::iterator it_mid,
-                                                   size_t segment_size)
+typename U::iterator TPmergeMe<T>::get_middle(typename U::iterator it, size_t segment_size, int increment)
 {
-    if (segment_size <= 1)
+    segment_size /= 2;
+    if (increment == 1)
     {
-        if (comp(*it_mid, key))
-            return it_mid;
+        for (size_t i = 0; i != segment_size; i++)
+            it++;
+    }
+    else if (increment == -1)
+    {
+        for (size_t i = 0; i != segment_size; i++)
+            it--;
+    }
+    else
+        throw std::invalid_argument("Increment is not 1 or -1");
+    return it;
+}
+
+template<class T>
+template<class U>
+void TPmergeMe<T>::binary_insert(U & list, typename U::value_type key, typename U::iterator it, size_t segment_size)
+{
+    if (segment_size <= 1 || it == list.begin() || it == list.end())
+    {
+        if (it == list.end() || comp(*it, key))
+            list.insert(it, key);
         else
         {
-            it_mid++;
-            return it_mid;
+            if (it == list.begin())
+                list.push_front(key);
+            else
+            {
+                it--;
+                list.insert(it, key);
+            }
         }
     }
-
-    else if (comp(*it_mid, key))
+    else if (comp(*it, key))
     {
-        segment_size /= 2;
-        for (size_t i = 0; i != segment_size; i++)
-            it_mid--;
-        return binary_search(list, key, it_mid, segment_size);
+        it = get_middle<U>(it, segment_size, 1);
+        return binary_insert(list, key, it, segment_size / 2);
     }
     else
     {
-        segment_size /= 2;
-        for (size_t i = 0; i != segment_size; i++)
-            it_mid++;
-        return binary_search(list, key, it_mid, segment_size);
+        it = get_middle<U>(it, segment_size, -1);
+        return binary_insert(list, key, it, segment_size / 2);
     }
 }
 
@@ -78,17 +96,13 @@ void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
     }*/
     size_t total_size;
     typename U::value_type key;
-    typename U::iterator pos_insert;
-    typename U::iterator it_mid;
+    //typename U::iterator pos_insert;
+    //typename U::iterator it_mid;
     for (typename U::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
     {
         total_size = main_list.size();
         key = *it_pend;
-        it_mid = main_list.begin();
-        for (size_t i = 0; i != total_size / 2; i++)
-            it_mid++;
-        pos_insert = binary_search(main_list, key, it_mid, total_size / 2);
-        main_list.insert(pos_insert, key);
+        binary_insert(main_list, key, get_middle<U>(main_list.begin(), total_size, 1), total_size);
     }
 }
 
