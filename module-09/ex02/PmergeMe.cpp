@@ -33,12 +33,15 @@ PmergeMe & PmergeMe::operator=(const PmergeMe & assign)
 void PmergeMe::get_values(char **av)
 {
     std::list<value_type> lst;
+    std::vector<value_type> vec;
     for (size_t i = 1; av[i]; i++)
     {
         validate_values(av[i]);
         lst.push_back(strtol(av[i], NULL, 10));
+        vec.push_back(strtol(av[i], NULL, 10));
     }
     _values_list = lst;
+    _value_vector = vec;
 }
 
 bool PmergeMe::validate_values(char *av)
@@ -53,4 +56,6 @@ void PmergeMe::sort()
     print_value(_values_list.get_values());
 	_values_list.sort();
     print_value(_values_list.get_values());
+    _value_vector.sort();
+    print_value(_value_vector.get_values());
 }
