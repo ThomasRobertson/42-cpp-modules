@@ -32,4 +32,17 @@ class PmergeMe
         }
         std::cout << std::endl;
     }
+    template<class T>
+    bool is_sorted(T list)
+    {
+        typename T::value_type value = list.front();
+        for (typename T::iterator it = list.begin(); it != list.end(); it++)
+        {
+            if (it == list.begin())
+                continue ;
+            if (*it <= value)
+                return false;
+        }
+        return true;
+    }
 };

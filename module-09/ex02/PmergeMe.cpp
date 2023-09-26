@@ -46,7 +46,15 @@ void PmergeMe::get_values(char **av)
 
 bool PmergeMe::validate_values(char *av)
 {
-	(void)av;
+    if (av == NULL)
+        return false;
+    if (std::strlen(av) == 0)
+        return false;
+    for (size_t i = 0; av[i]; i++)
+    {
+        if (!std::isdigit(av[i]))
+            return false;
+    }
 	return true;
 }
 
@@ -55,7 +63,15 @@ void PmergeMe::sort()
 	//_value_vector.sort_list();
     print_value(_values_list.get_values());
 	_values_list.sort();
-    print_value(_values_list.get_values());
+    if (is_sorted(_values_list.get_values()))
+        std::cout << "List is sorted.\n";
+    else
+        std::cout << "List is NOT sorted.\n";
+    if (is_sorted(_value_vector.get_values()))
+        std::cout << "Vector is sorted.\n";
+    else
+        std::cout << "Vector is NOT sorted.\n";
+    // print_value(_values_list.get_values());
     _value_vector.sort();
-    print_value(_value_vector.get_values());
+    // print_value(_value_vector.get_values());
 }
