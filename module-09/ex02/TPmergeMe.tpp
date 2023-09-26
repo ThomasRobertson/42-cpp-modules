@@ -35,7 +35,7 @@ std::vector<std::pair<typename U::value_type, typename U::value_type> > TPmergeM
 
 template<class T>
 template<class U>
-typename U::iterator TPmergeMe<T>::get_middle(typename U::iterator it, size_t segment_size, int increment)
+typename std::list<U>::iterator TPmergeMe<T>::get_middle(typename std::list<U>::iterator it, size_t segment_size, int increment)
 {
     segment_size = std::floor(segment_size / 2);
     if (increment == 1)
@@ -48,6 +48,17 @@ typename U::iterator TPmergeMe<T>::get_middle(typename U::iterator it, size_t se
         for (size_t i = 0; i != segment_size; i++)
             it--;
     }
+    else
+        throw std::invalid_argument("Increment is not 1 or -1");
+    return it;
+}
+
+template<class T>
+template<class U>
+typename std::vector<U>::iterator TPmergeMe<T>::get_middle(typename std::vector<U>::iterator it, size_t segment_size, int increment)
+{
+    if (increment == 1 || increment == -1)
+        std::advance(it, std::floor(segment_size / 2) * increment);
     else
         throw std::invalid_argument("Increment is not 1 or -1");
     return it;
@@ -69,12 +80,12 @@ void TPmergeMe<T>::binary_insert(U & list, typename U::value_type key, typename 
     }
     else if (comp(*it, key))
     {
-        it = get_middle<U>(it, segment_size, 1);
+        it = get_middle<typename U::value_type>(it, segment_size, 1);
         return binary_insert(list, key, it, std::floor(segment_size / 2));
     }
     else
     {
-        it = get_middle<U>(it, segment_size, -1);
+        it = get_middle<typename U::value_type>(it, segment_size, -1);
         return binary_insert(list, key, it, std::floor(segment_size / 2));
     }
 }
@@ -90,7 +101,7 @@ void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
     }
     for (typename U::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
     {
-        binary_insert(main_list, *it_pend, get_middle<U>(main_list.begin(), main_list.size(),
+        binary_insert(main_list, *it_pend, get_middle<typename U::value_type>(main_list.begin(), main_list.size(),
                                                          1), main_list.size());
     }
 }
