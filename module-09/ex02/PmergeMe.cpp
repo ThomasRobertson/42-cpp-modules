@@ -63,15 +63,20 @@ void PmergeMe::sort()
 	//_value_vector.sort_list();
     print_value(_values_list.get_values());
 	_values_list.sort();
+    if (!no_duplicates(_values_list.get_values()))
+        std::cout << "List has some duplicates values.\n";
     if (is_sorted(_values_list.get_values()))
         std::cout << "List is sorted.\n";
     else
         std::cout << "List is NOT sorted.\n";
+    //print_value(_values_list.get_values());
+
+    _value_vector.sort();
+    if (!no_duplicates(_value_vector.get_values()))
+        std::cout << "List has some duplicates values.\n";
     if (is_sorted(_value_vector.get_values()))
         std::cout << "Vector is sorted.\n";
     else
         std::cout << "Vector is NOT sorted.\n";
-    // print_value(_values_list.get_values());
-    _value_vector.sort();
-    // print_value(_value_vector.get_values());
+    //print_value(_value_vector.get_values());
 }

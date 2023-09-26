@@ -40,7 +40,20 @@ class PmergeMe
         {
             if (it == list.begin())
                 continue ;
-            if (*it <= value)
+            if (*it < value)
+                return false;
+        }
+        return true;
+    }
+    template<class T>
+    bool no_duplicates(T list)
+    {
+        typename T::value_type value = list.front();
+        for (typename T::iterator it = list.begin(); it != list.end(); it++)
+        {
+            if (it == list.begin())
+                continue ;
+            if (*it == value)
                 return false;
         }
         return true;
