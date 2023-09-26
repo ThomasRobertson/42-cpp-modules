@@ -1,4 +1,3 @@
-#include <algorithm> //à enlever
 #include "TPmergeMe.hpp"
 
 template<class T>
@@ -84,11 +83,11 @@ template<class T>
 template<class U>
 void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
 {
-    /*if (main_list.size() == 0)
+    if (main_list.size() == 0)
     {
         main_list.push_back(pend_list.front());
         pend_list.erase(pend_list.begin());
-    }*/
+    }
     for (typename U::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
     {
         binary_insert(main_list, *it_pend, get_middle<U>(main_list.begin(), main_list.size(),
@@ -112,20 +111,18 @@ U TPmergeMe<T>::sort_list(U & value)
 		value.pop_back();
 	}
 	typedef std::vector<std::pair<typename U::value_type, typename U::value_type> > pair_t;
-	pair_t pairs = create_pairs(value);
-    std::sort(pairs.begin(), pairs.end());
-    //pair_t sorted_pairs;
-    //binary_sort(sorted_pairs, pairs);
-    //pairs = sorted_pairs;
+	pair_t unsorted_pairs = create_pairs(value);
+    pair_t sorted_pairs;
+    binary_sort(sorted_pairs, unsorted_pairs);
 	
 	U main_list;
 	U pend_list;
 	{
-		typename pair_t::iterator it = pairs.begin();
+		typename pair_t::iterator it = sorted_pairs.begin();
 		main_list.push_back(it->second);
 		main_list.push_back(it->first);
 		it++;
-		while (it != pairs.end())
+		while (it != sorted_pairs.end())
 		{
 			main_list.push_back(it->first);
 			pend_list.push_back(it->second);
