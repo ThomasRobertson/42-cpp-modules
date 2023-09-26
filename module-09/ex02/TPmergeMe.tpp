@@ -102,7 +102,7 @@ void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
     for (typename U::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
     {
         binary_insert(main_list, *it_pend, get_middle<typename U::value_type>(main_list.begin(), main_list.size(),
-                                                         1), main_list.size());
+                                                         1), std::floor(main_list.size() / 2));
     }
 }
 
