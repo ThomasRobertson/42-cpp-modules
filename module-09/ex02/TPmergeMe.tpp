@@ -38,7 +38,7 @@ template<class T>
 template<class U>
 typename U::iterator TPmergeMe<T>::get_middle(typename U::iterator it, size_t segment_size, int increment)
 {
-    segment_size /= 2;
+    segment_size = std::floor(segment_size / 2);
     if (increment == 1)
     {
         for (size_t i = 0; i != segment_size; i++)
@@ -58,30 +58,25 @@ template<class T>
 template<class U>
 void TPmergeMe<T>::binary_insert(U & list, typename U::value_type key, typename U::iterator it, size_t segment_size)
 {
-    if (segment_size <= 1 || it == list.begin() || it == list.end())
+    if (segment_size == 0)
     {
-        if (it == list.end() || comp(*it, key))
-            list.insert(it, key);
-        else
+        if (comp(*it, key))
         {
-            if (it == list.begin())
-                list.push_front(key);
-            else
-            {
-                it--;
-                list.insert(it, key);
-            }
+            it++;
+            list.insert(it, key);
         }
+        else
+            list.insert(it, key);
     }
     else if (comp(*it, key))
     {
         it = get_middle<U>(it, segment_size, 1);
-        return binary_insert(list, key, it, segment_size / 2);
+        return binary_insert(list, key, it, std::floor(segment_size / 2));
     }
     else
     {
         it = get_middle<U>(it, segment_size, -1);
-        return binary_insert(list, key, it, segment_size / 2);
+        return binary_insert(list, key, it, std::floor(segment_size / 2));
     }
 }
 
@@ -94,15 +89,10 @@ void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
         main_list.push_back(pend_list.front());
         pend_list.erase(pend_list.begin());
     }*/
-    size_t total_size;
-    typename U::value_type key;
-    //typename U::iterator pos_insert;
-    //typename U::iterator it_mid;
     for (typename U::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
     {
-        total_size = main_list.size();
-        key = *it_pend;
-        binary_insert(main_list, key, get_middle<U>(main_list.begin(), total_size, 1), total_size);
+        binary_insert(main_list, *it_pend, get_middle<U>(main_list.begin(), main_list.size(),
+                                                         1), main_list.size());
     }
 }
 

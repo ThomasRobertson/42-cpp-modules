@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <cmath>
 
 typedef unsigned int value_type;
 
