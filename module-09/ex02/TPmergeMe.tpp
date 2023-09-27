@@ -68,25 +68,20 @@ template<class T>
 template<class U>
 void TPmergeMe<T>::binary_insert(U & list, typename U::value_type key, typename U::iterator it, size_t segment_size)
 {
-    if (segment_size == 0)
+    while (segment_size > 0 && *it != list.back() && *it != list.front())
     {
-        if (comp(*it, key))
-        {
-            it++;
-            list.insert(it, key);
-        }
+        if (comp(key, *it))
+            it = get_middle<typename U::value_type>(it, segment_size, -1);
         else
-            list.insert(it, key);
+            it = get_middle<typename U::value_type>(it, segment_size, 1);
+        segment_size = std::floor(segment_size / 2);
     }
-    else if (comp(*it, key))
-    {
-        it = get_middle<typename U::value_type>(it, segment_size, 1);
-        return binary_insert(list, key, it, std::floor(segment_size / 2));
-    }
+    if (comp(key, *it)) // key > *it
+        list.insert(it, key);
     else
     {
-        it = get_middle<typename U::value_type>(it, segment_size, -1);
-        return binary_insert(list, key, it, std::floor(segment_size / 2));
+        it++;
+        list.insert(it, key);
     }
 }
 
