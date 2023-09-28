@@ -35,7 +35,7 @@ class TPmergeMe
     template<class U>
     void binary_sort(U &main_list, U &pend_list);
     template<class U>
-    void binary_insert(U & list, typename U::value_type key, typename U::iterator it, size_t segment_size);
+    void binary_insert(U & list, typename U::value_type key);
     template<class U>
     typename std::vector<U>::iterator get_middle(typename std::vector<U>::iterator it, size_t segment_size, int increment);
     template<class U>

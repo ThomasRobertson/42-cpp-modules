@@ -1,4 +1,5 @@
 #include "TPmergeMe.hpp"
+#include <iterator>
 
 template<class T>
 TPmergeMe<T> & TPmergeMe<T>::operator=(const TPmergeMe & assign)
@@ -66,23 +67,22 @@ typename std::vector<U>::iterator TPmergeMe<T>::get_middle(typename std::vector<
 
 template<class T>
 template<class U>
-void TPmergeMe<T>::binary_insert(U & list, typename U::value_type key, typename U::iterator it, size_t segment_size)
+void TPmergeMe<T>::binary_insert(U & list, typename U::value_type key)
 {
-    while (segment_size > 0 && *it != list.back() && *it != list.front())
+    long low = 0;
+    long high = list.size();
+    typename U::iterator it_mid = list.begin();
+    while (low < high)
     {
-        if (comp(key, *it))
-            it = get_middle<typename U::value_type>(it, segment_size, -1);
+        long mid = std::floor(low + (high - low)/2.0);
+        it_mid = list.begin();
+        std::advance(it_mid, mid);
+        if(comp(*it_mid, key))
+            low = mid + 1;
         else
-            it = get_middle<typename U::value_type>(it, segment_size, 1);
-        segment_size = std::floor(segment_size / 2);
+            high = mid;
     }
-    if (comp(key, *it)) // key > *it
-        list.insert(it, key);
-    else
-    {
-        it++;
-        list.insert(it, key);
-    }
+    list.insert(it_mid, key);
 }
 
 template<class T>
@@ -96,8 +96,7 @@ void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
     }
     for (typename U::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
     {
-        binary_insert(main_list, *it_pend, get_middle<typename U::value_type>(main_list.begin(), main_list.size(),
-                                                         1), std::floor(main_list.size() / 2));
+        binary_insert(main_list, *it_pend);
     }
 }
 
