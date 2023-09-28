@@ -41,7 +41,11 @@ void PmergeMe::get_values(char **av)
         vec.push_back(strtol(av[i], NULL, 10));
     }
     _values_list = lst;
+    if (std::adjacent_find(lst.begin(), lst.end()) != lst.end())
+        throw std::invalid_argument("Duplicates find in std::list.");
     _value_vector = vec;
+    if (std::adjacent_find(vec.begin(), vec.end()) != vec.end())
+        throw std::invalid_argument("Duplicates find in std::vector.");
 }
 
 bool PmergeMe::validate_values(char *av)
@@ -63,8 +67,6 @@ void PmergeMe::sort()
 	//_value_vector.sort_list();
     print_value(_values_list.get_values());
 	_values_list.sort();
-    if (!no_duplicates(_values_list.get_values()))
-        std::cout << "List has some duplicates values.\n";
     if (is_sorted(_values_list.get_values()))
         std::cout << "List is sorted.\n";
     else
@@ -72,8 +74,6 @@ void PmergeMe::sort()
     //print_value(_values_list.get_values());
 
     _value_vector.sort();
-    if (!no_duplicates(_value_vector.get_values()))
-        std::cout << "List has some duplicates values.\n";
     if (is_sorted(_value_vector.get_values()))
         std::cout << "Vector is sorted.\n";
     else
