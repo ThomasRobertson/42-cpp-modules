@@ -48,18 +48,21 @@ void PmergeMe::get_values(char **av)
         throw std::invalid_argument("Duplicates find in std::vector.");
 }
 
-bool PmergeMe::validate_values(char *av)
+void PmergeMe::validate_values(char *av)
 {
     if (av == NULL)
-        return false;
+        throw std::invalid_argument("Empty argument.");
     if (std::strlen(av) == 0)
-        return false;
+        throw std::invalid_argument("Argument of size 0.");
     for (size_t i = 0; av[i]; i++)
     {
         if (!std::isdigit(av[i]))
-            return false;
+        {
+            std::string exception_string = "invalid input : ";
+            exception_string += av;
+            throw std::invalid_argument(exception_string);
+        }
     }
-	return true;
 }
 
 void PmergeMe::sort()
@@ -71,12 +74,12 @@ void PmergeMe::sort()
         std::cout << "List is sorted.\n";
     else
         std::cout << "List is NOT sorted.\n";
-    //print_value(_values_list.get_values());
+    print_value(_values_list.get_values());
 
     _value_vector.sort();
     if (is_sorted(_value_vector.get_values()))
         std::cout << "Vector is sorted.\n";
     else
         std::cout << "Vector is NOT sorted.\n";
-    //print_value(_value_vector.get_values());
+    print_value(_value_vector.get_values());
 }

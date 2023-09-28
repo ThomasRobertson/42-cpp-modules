@@ -16,7 +16,7 @@ class PmergeMe
 	PmergeMe & operator=(const PmergeMe & assign);
 
 	void get_values(char **av);
-	static bool validate_values(char *av);
+	static void validate_values(char *av);
 	void sort();
 
 	private :
