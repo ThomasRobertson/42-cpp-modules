@@ -17,7 +17,7 @@
 NAME= PmergeMe
 
 CXX= c++
-CXXFLAGS= -Wall -Werror -Wextra -g3 -std=c++98 $(DEPFLAGS) $(INCLUDE)
+CXXFLAGS= -Wall -Werror -Wextra -g3 -std=c++98 $(DEPFLAGS) $(INCLUDE) -pedantic
 LDFLAGS= 
 DEPFLAGS= -MMD -MP
 

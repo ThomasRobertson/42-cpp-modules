@@ -29,6 +29,7 @@ std::vector<std::pair<typename U::value_type, typename U::value_type> > TPmergeM
 			first_value = second_value;
 			second_value = tmp;
 		}
+        //std::swap(first_value, second_value);
 		pairs.push_back(std::make_pair(first_value, second_value));
 	}
 	return pairs;
@@ -36,28 +37,27 @@ std::vector<std::pair<typename U::value_type, typename U::value_type> > TPmergeM
 
 template<class T>
 template<class U>
-typename std::list<U>::iterator TPmergeMe<T>::get_middle(typename std::list<U>::iterator it, size_t segment_size, int increment)
+typename std::list<U>::iterator TPmergeMe<T>::advance_it(std::list<U> lst, int increment)
 {
-    segment_size = std::floor(segment_size / 2);
-    if (increment == 1)
+    typename std::list<U>::iterator it = lst.begin();
+    if (increment > 1)
     {
-        for (size_t i = 0; i != segment_size; i++)
+        for (int i = 0; i != increment; i++)
             it++;
     }
-    else if (increment == -1)
+    else if (increment < 1)
     {
-        for (size_t i = 0; i != segment_size; i++)
+        for (int i = 0; i != increment; i++)
             it--;
     }
-    else
-        throw std::invalid_argument("Increment is not 1 or -1");
     return it;
 }
 
 template<class T>
 template<class U>
-typename std::vector<U>::iterator TPmergeMe<T>::get_middle(typename std::vector<U>::iterator it, size_t segment_size, int increment)
+typename std::vector<U>::iterator TPmergeMe<T>::advance_it(std::vector<U> vec, int increment)
 {
+    typename std::vector<U>::iterator it = vec.begin();
     if (increment == 1 || increment == -1)
         std::advance(it, std::floor(segment_size / 2) * increment);
     else
@@ -69,12 +69,12 @@ template<class T>
 template<class U>
 void TPmergeMe<T>::binary_insert(U & list, typename U::value_type key)
 {
-    long low = 0;
-    long high = list.size();
+    int low = 0;
+    int high = list.size();
     typename U::iterator it_mid = list.begin();
     while (low < high)
     {
-        long mid = std::floor(low + (high - low)/2.0);
+        int mid = std::floor(low + (high - low)/2.0);
         it_mid = list.begin();
         std::advance(it_mid, mid);
         if(comp(*it_mid, key))
@@ -89,15 +89,8 @@ template<class T>
 template<class U>
 void TPmergeMe<T>::binary_sort(U & main_list, U & pend_list)
 {
-    if (main_list.size() == 0)
-    {
-        main_list.push_back(pend_list.front());
-        pend_list.erase(pend_list.begin());
-    }
     for (typename U::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
-    {
         binary_insert(main_list, *it_pend);
-    }
 }
 
 template<class T>
@@ -163,7 +156,6 @@ template<class T>
 template<class U>
 bool TPmergeMe<T>::comp(const std::pair<U,U> & a, const std::pair<U,U> & b)
 {
-    //return a < b;
 	return comp(a.first, b.first);
 }
 
