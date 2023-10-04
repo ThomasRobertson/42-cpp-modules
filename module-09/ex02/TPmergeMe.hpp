@@ -37,9 +37,9 @@ class TPmergeMe
     template<class U>
     void binary_insert(U & list, typename U::value_type key);
     template<class U>
-    typename std::vector<U>::iterator get_middle(typename std::vector<U>::iterator it, size_t segment_size, int increment);
+    typename std::vector<U>::iterator advance_it(std::vector<U> &vec, int increment);
     template<class U>
-    typename std::list<U>::iterator get_middle(typename std::list<U>::iterator it, size_t segment_size, int increment);
+    typename std::list<U>::iterator advance_it(std::list<U> &lst, int increment);
 };
 
 #include "TPmergeMe.tpp"
