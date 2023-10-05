@@ -67,7 +67,6 @@ void PmergeMe::validate_values(char *av)
 
 void PmergeMe::sort()
 {
-	//_value_vector.sort_list();
     print_value(_values_list.get_values());
 	_values_list.sort();
     if (is_sorted(_values_list.get_values()))

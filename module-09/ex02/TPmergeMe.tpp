@@ -1,5 +1,4 @@
 #include "TPmergeMe.hpp"
-#include <iterator>
 
 template<class T>
 TPmergeMe<T> & TPmergeMe<T>::operator=(const TPmergeMe & assign)
@@ -23,35 +22,11 @@ std::vector<std::pair<typename U::value_type, typename U::value_type> > TPmergeM
 		if (it == value.end())
 			throw std::runtime_error("Error: creating pair with odd numbers.");
         typename U::value_type second_value = *it;
-		if (comp(first_value, second_value))
-		{
-            typename U::value_type tmp = first_value;
-			first_value = second_value;
-			second_value = tmp;
-		}
-        //std::swap(first_value, second_value);
+		if (first_value < second_value)
+            std::swap(first_value, second_value);
 		pairs.push_back(std::make_pair(first_value, second_value));
 	}
 	return pairs;
-}
-
-template<class T>
-template<class U>
-typename std::list<U>::iterator TPmergeMe<T>::advance_it(std::list<U> &lst, int increment)
-{
-    typename std::list<U>::iterator it = lst.begin();
-    for (int i = 0; i != increment; i++)
-        it++;
-    return it;
-}
-
-template<class T>
-template<class U>
-typename std::vector<U>::iterator TPmergeMe<T>::advance_it(std::vector<U> &vec, int increment)
-{
-    typename std::vector<U>::iterator it = vec.begin();
-    std::advance(it, increment);
-    return it;
 }
 
 template<class T>
@@ -64,10 +39,9 @@ void TPmergeMe<T>::binary_insert(U & list, typename U::value_type key)
     while (low < high)
     {
         int mid = std::floor(low + (high - low)/2.0);
-        it_mid = advance_it(list, mid);
-        // it_mid = list.begin();
-        // std::advance(it_mid, mid);
-        if(comp(*it_mid, key))
+        it_mid = list.begin();
+        std::advance(it_mid, mid);
+        if(*it_mid < key)
             low = mid + 1;
         else
             high = mid;
@@ -87,20 +61,22 @@ template<class T>
 template<class U>
 U TPmergeMe<T>::sort_list(U & value)
 {
-	bool is_even = true;
-	typename U::value_type straggler;
+    if (value.size() == 1)
+        return value;
 
-	if (value.size() % 2 != 0)
+    bool is_even = true;
+	typename U::value_type straggler;
+    if (value.size() % 2 != 0)
 	{
-        if (value.size() == 1)
-            return value;
 		is_even = false;
 		straggler = value.back();
 		value.pop_back();
 	}
+
 	typedef std::vector<std::pair<typename U::value_type, typename U::value_type> > pair_t;
 	pair_t unsorted_pairs = create_pairs(value);
     pair_t sorted_pairs;
+    // sorted_pairs = sort_list(unsorted_pairs);
     binary_sort(sorted_pairs, unsorted_pairs);
 	
 	U main_list;
@@ -134,24 +110,4 @@ T TPmergeMe<T>::sort()
     T values = sort_list(_values);
     _values = values;
     return (values);
-}
-
-template<class T>
-bool TPmergeMe<T>::comp(const value_type & a, const value_type & b)
-{
-	return a < b;
-}
-
-template<class T>
-template<class U>
-bool TPmergeMe<T>::comp(const std::pair<U,U> & a, const std::pair<U,U> & b)
-{
-	return comp(a.first, b.first);
-}
-
-template<class T>
-template<class U>
-bool TPmergeMe<T>::comp(const std::pair<value_type,value_type> & a, const std::pair<value_type,value_type> & b)
-{
-    return a.first < b.first;
 }

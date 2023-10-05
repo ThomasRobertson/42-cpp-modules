@@ -20,7 +20,7 @@ class PmergeMe
 	void sort();
 
 	private :
-	TPmergeMe<std::list<value_type> > _values_list; // a modifier !
+	TPmergeMe<std::list<value_type> > _values_list;
 	TPmergeMe<std::vector<value_type> > _value_vector;
 
     template <class T>

@@ -5,6 +5,9 @@
 #include <sstream>
 #include <iostream>
 #include <cmath>
+#include <iterator>
+#include <algorithm>
+#include <cstring>
 
 typedef unsigned int value_type;
 
@@ -27,19 +30,10 @@ class TPmergeMe
 
     template <typename U>
     std::vector<std::pair<typename U::value_type, typename U::value_type> > create_pairs(const U & value);
-	bool comp(const value_type & a, const value_type & b);
-    template <class U>
-	bool comp(const std::pair<U,U> & a, const std::pair<U,U> & b);
-    template<class U>
-    bool comp(const std::pair<value_type,value_type> & a, const std::pair<value_type,value_type> & b);
     template<class U>
     void binary_sort(U &main_list, U &pend_list);
     template<class U>
     void binary_insert(U & list, typename U::value_type key);
-    template<class U>
-    typename std::vector<U>::iterator advance_it(std::vector<U> &vec, int increment);
-    template<class U>
-    typename std::list<U>::iterator advance_it(std::list<U> &lst, int increment);
 };
 
 #include "TPmergeMe.tpp"
