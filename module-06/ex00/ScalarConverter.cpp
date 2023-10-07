@@ -20,14 +20,7 @@ ScalarConverter::~ScalarConverter()
 // Operators
 ScalarConverter & ScalarConverter::operator=(const ScalarConverter &assign)
 {
-	if (this != &assign)
-	{
-		// _canBeInt = assign._canBeInt;
-		// _canBeChar = assign._canBeChar;
-		// _canBeFloat = assign._canBeFloat;
-		// _canBeDouble = assign._canBeDouble;
-		(void)assign;
-	}
+	(void)assign;
 	return *this;
 }
 
@@ -207,28 +200,5 @@ ScalarConverter::_type ScalarConverter::findType(std::string input)
 void ScalarConverter::convert(std::string input)
 {
 	_type type = findType(input);
-	// std::cout << "Input is of type : ";
-	// switch (type)
-	// {
-	// case char_type:
-	// 	std::cout << "char" << std::endl;
-	// 	break;
-	// case int_type:
-	// 	std::cout << "int" << std::endl;
-	// 	break;
-	// case float_type:
-	// 	std::cout << "float" << std::endl;
-	// 	break;
-	// case double_type:
-	// 	std::cout << "double" << std::endl;
-	// 	break;
-	// default:
-	// 	std::cout << "unknown" << std::endl;
-	// 	break;
-	// }
 	printTypes(input, type);
-	// std::cout << "char: " << _canBeChar << std::endl
-	// 	<< "int: " << _canBeInt << std::endl
-	// 	<< "float: " << _canBeFloat << std::endl
-	// 	<< "double: " << _canBeDouble << std::endl;
 }
