@@ -16,7 +16,7 @@
 
 NAME= Serializer
 
-CC= cc++
+CC= c++
 CXXFLAGS= -Wall -Werror -Wextra -g3 -std=c++98 $(INCLUDE)
 LDFLAGS= 
 
