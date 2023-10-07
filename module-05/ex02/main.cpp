@@ -30,7 +30,7 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
+	std::cout << std::endl;
 	try
 	{
 		for (size_t i = 0; i != (sizeof bureaucrats / sizeof *bureaucrats); i++)
@@ -42,7 +42,7 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
+    std::cout << std::endl;
 	try
 	{
 		for (size_t i = 0; i != (sizeof bureaucrats / sizeof *bureaucrats); i++)
@@ -53,13 +53,14 @@ int main()
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
-	}	
-	
+	}
+    std::cout << std::endl;
 	try
 	{
 		for (size_t i = 0; i != (sizeof bureaucrats / sizeof *bureaucrats); i++)
 		{
 			ShubberyForm.execute(bureaucrats[i]);
+            std::cout << "System : " << bureaucrats[i].getName() << " has executed the form.\n";
 		}
 	}
 	catch(const std::exception& e)
@@ -86,7 +87,7 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
+    std::cout << std::endl;
 	try
 	{
 		for (size_t i = 0; i != (sizeof bureaucrats / sizeof *bureaucrats); i++)
@@ -98,7 +99,7 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
+    std::cout << std::endl;
 	try
 	{
 		for (size_t i = 0; i != (sizeof bureaucrats / sizeof *bureaucrats); i++)
@@ -109,13 +110,14 @@ int main()
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
-	}	
-	
+	}
+    std::cout << std::endl;
 	try
 	{
 		for (size_t i = 0; i != (sizeof bureaucrats / sizeof *bureaucrats); i++)
 		{
 			RobotomyForm.execute(bureaucrats[i]);
+            std::cout << "System : " << bureaucrats[i].getName() << " has executed the form.\n";
 		}
 	}
 	catch(const std::exception& e)
@@ -142,7 +144,7 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
+    std::cout << std::endl;
 	try
 	{
 		for (size_t i = 0; i != (sizeof bureaucrats / sizeof *bureaucrats); i++)
@@ -154,7 +156,7 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
+    std::cout << std::endl;
 	try
 	{
 		for (size_t i = 0; i != (sizeof bureaucrats / sizeof *bureaucrats); i++)
@@ -165,13 +167,14 @@ int main()
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
-	}	
-	
+	}
+    std::cout << std::endl;
 	try
 	{
 		for (size_t i = 0; i != (sizeof bureaucrats / sizeof *bureaucrats); i++)
 		{
 			PresidentialForm.execute(bureaucrats[i]);
+            std::cout << "System : " << bureaucrats[i].getName() << " has executed the form.\n";
 		}
 	}
 	catch(const std::exception& e)

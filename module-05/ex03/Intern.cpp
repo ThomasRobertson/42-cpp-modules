@@ -42,16 +42,24 @@ AForm *Intern::presidential(std::string target)
 AForm* Intern::makeForm(std::string formName, std::string target)
 {
 	std::string formsNames[] = {"presidential pardon", "robotomy request", "shruberry creaction"};
-	AForm *forms[] = {Intern::presidential(target), Intern::robotomy(target), Intern::shrubbery(target)};
+    struct FormCreator {
+        AForm* (Intern::*formFunction)(std::string);
+    };
 
-	for (size_t i = 0; i != sizeof formsNames / sizeof *formsNames; i++)
-	{
-		if (formName == formsNames[i])
-		{
-			std::cout << "Intern creates " << formsNames[i] << " form" << std::endl;
-			return forms[i];
-		}
-	}
+    FormCreator formCreators[3] = {
+            { &Intern::presidential },
+            { &Intern::robotomy },
+            { &Intern::shrubbery }
+    };
+
+    for (size_t i = 0; i != sizeof formsNames / sizeof *formsNames; i++)
+    {
+        if (formName == formsNames[i])
+        {
+            std::cout << "Intern creates " << formsNames[i] << " form" << std::endl;
+            return (this->*formCreators[i].formFunction)(target);
+        }
+    }
 	std::cerr << "Sorry to bother you... I don't think this form exist" << std::endl;
 	return (NULL);
 }
