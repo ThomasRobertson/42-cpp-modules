@@ -61,19 +61,35 @@ class TPmergeMe
 
     void binary_sort(T &main_list, T &pend_list)
 	{
-		for (typename T::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
-			binary_insert(main_list, *it_pend);
+		for (typename T::iterator it = pend_list.begin(); it != pend_list.end(); ++it)
+		{
+			typename T::iterator pos = binary_search(main_list, *it);
+			main_list.insert(pos, *it);
+		}
 	}
 
-    template<class U>
-    void binary_insert(U & list, typename U::value_type key)
+	unsigned int jacobsthal(unsigned int n) {
+		if (n == 0)
+			return 0;
+		else if (n == 1)
+			return 1;
+		else
+			return jacobsthal(n-1) + 2 * jacobsthal(n-2);
+	}
+
+	typename T::iterator binary_search(T& list, unsigned int key)
 	{
-		int low = 0;
-		int high = list.size();
+		static unsigned int jacob[] = {0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525};
+		size_t low = 0;
+		size_t high = list.size();
+		unsigned int mid;
 		typename T::iterator it_mid = list.begin();
 		while (low < high)
 		{
-			int mid = std::floor(low + (high - low)/2.0);
+			for (int i = 0; jacob[i] <= high - low - 1; i++)
+			{
+				mid = jacob[i];
+			}
 			it_mid = list.begin();
 			std::advance(it_mid, mid);
 			if(*it_mid < key)
@@ -81,7 +97,7 @@ class TPmergeMe
 			else
 				high = mid;
 		}
-		list.insert(it_mid, key);
+		return it_mid;
 	}
 
 	T sort_list(T value)
