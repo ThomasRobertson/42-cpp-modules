@@ -28,49 +28,6 @@ class TPmergeMe
 		return *this;
 	}
 
-    template<class U>
-	U sort_list(U & value)
-	{
-		if (value.empty())
-			return value;
-		bool is_even = true;
-		typename U::value_type straggler;
-		if (value.size() % 2 != 0)
-		{
-			is_even = false;
-			straggler = value.back();
-			value.pop_back();
-		}
-
-		typedef std::vector<std::pair<typename U::value_type, typename U::value_type> > pair_t;
-		pair_t unsorted_pairs = create_pairs(value);
-		pair_t sorted_pairs;
-		binary_sort(sorted_pairs, unsorted_pairs);
-
-		U main_list;
-		U pend_list;
-		{
-			typename pair_t::iterator it = sorted_pairs.begin();
-			main_list.push_back(it->second);
-			main_list.push_back(it->first);
-			it++;
-			while (it != sorted_pairs.end())
-			{
-				main_list.push_back(it->first);
-				pend_list.push_back(it->second);
-				it++;
-			}
-		}
-
-		binary_sort(main_list, pend_list);
-		if (!is_even)
-		{
-			U straggler_list;
-			straggler_list.push_back(straggler);
-			binary_sort(main_list, straggler_list);
-		}
-		return (main_list);
-	}
 	T sort()
 	{
 		T values = sort_list(_values);
@@ -125,5 +82,33 @@ class TPmergeMe
 				high = mid;
 		}
 		list.insert(it_mid, key);
+	}
+
+	T sort_list(T value)
+	{
+		if (value.size() <= 1)
+			return value;
+		bool is_even = true;
+		typename T::value_type straggler;
+		if (value.size() % 2 != 0)
+		{
+			is_even = false;
+			straggler = value.back();
+			value.pop_back();
+		}
+
+		std::pair<T, T> pairs = create_pairs(value);
+		T main_list = pairs.first;
+		T pend_list = pairs.second;
+		main_list = sort_list(main_list);
+
+		binary_sort(main_list, pend_list);
+		if (!is_even)
+		{
+			T straggler_list;
+			straggler_list.push_back(straggler);
+			binary_sort(main_list, straggler_list);
+		}
+		return (main_list);
 	}
 };
