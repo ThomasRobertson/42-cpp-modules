@@ -82,28 +82,29 @@ class TPmergeMe
 	private :
 	T _values;
 
-    template <typename U>
-    std::vector<std::pair<typename U::value_type, typename U::value_type> > create_pairs(const U & value)
+    std::pair<T, T> create_pairs(const T & values)
 	{
-		std::vector<std::pair<typename U::value_type, typename U::value_type> > pairs;
-		for (typename U::const_iterator it = value.begin(); it != value.end(); it++)
+		T first_list;
+		T second_list;
+		for (typename T::const_iterator it = values.begin(); it != values.end(); std::advance(it, 2))
 		{
-			typename U::value_type first_value = *it;
-			it++;
-			if (it == value.end())
+			typename T::const_iterator it_for = it;
+			typename T::value_type first_value = *it_for;
+			it_for++;
+			if (it_for == values.end())
 				throw std::runtime_error("Error: creating pair with odd numbers.");
-			typename U::value_type second_value = *it;
+			typename T::value_type second_value = *it_for;
 			if (first_value < second_value)
 				std::swap(first_value, second_value);
-			pairs.push_back(std::make_pair(first_value, second_value));
+			first_list.push_back(first_value);
+			second_list.push_back(second_value);
 		}
-		return pairs;
+		return std::make_pair(first_list, second_list);
 	}
 
-    template<class U>
-    void binary_sort(U &main_list, U &pend_list)
+    void binary_sort(T &main_list, T &pend_list)
 	{
-		for (typename U::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
+		for (typename T::iterator it_pend = pend_list.begin(); it_pend != pend_list.end(); it_pend++)
 			binary_insert(main_list, *it_pend);
 	}
 
@@ -112,7 +113,7 @@ class TPmergeMe
 	{
 		int low = 0;
 		int high = list.size();
-		typename U::iterator it_mid = list.begin();
+		typename T::iterator it_mid = list.begin();
 		while (low < high)
 		{
 			int mid = std::floor(low + (high - low)/2.0);
