@@ -9,25 +9,20 @@ class MutantStack : public std::stack<T, Container>
 {
 	public :
 
-/* 	typedef TIterator<iterator> iterator;
-	typedef TIterator<const_iterator> const_iterator; */
 	typedef typename Container::iterator iterator;
 	typedef typename Container::const_iterator const_iterator;
-	//typedef void * iterator;
 	MutantStack() {}
 	MutantStack(const MutantStack & copy) {*this = copy;}
 	~MutantStack() {}
-	MutantStack & operator=(const MutantStack & assign) {(void)assign;};
+	MutantStack & operator=(const MutantStack & assign) {
+        std::stack<T, Container>::operator=(assign);
+        return *this;
+	}
 
 	iterator end() {return std::stack<T, Container>::c.end();}
+	const_iterator end() const {return std::stack<T, Container>::c.end();}
 	iterator begin() {return std::stack<T, Container>::c.begin();}
-	
-	private :
-/* 	template <typename PointerType>
-	class TIterator : public Container::PointerType
-	{
-
-	}; */
+	const_iterator begin() const {return std::stack<T, Container>::c.begin();}
 };
 
 #endif // !MUTANT_STACK_HPP
