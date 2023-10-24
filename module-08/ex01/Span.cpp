@@ -1,16 +1,15 @@
 #include "Span.hpp"
 
 // Constructors
-Span::Span() : _N(0), _size(0)
+Span::Span() : _N(0)
 {
 }
 
-Span::Span(const Span &copy) : _N(copy._N), _arr(copy._arr)
+Span::Span(const Span &copy) : _N(copy._N), _arr(copy._arr), _shortestSpan(copy._shortestSpan)
 {
-	//_arr = copy._arr;
 }
 
-Span::Span(const size_t N) : _N(N), _size(0)
+Span::Span(const size_t N) : _N(N)
 {
 }
 
@@ -21,14 +20,14 @@ Span::~Span()
 
 
 // Operators
-/* Span & Span::operator=(const Span &assign)
+ Span & Span::operator=(const Span &assign)
 {
-	if (_N < assign._N)
-		throw Span::
+	if (_N < assign._arr.size())
+		throw std::out_of_range("Assign array is bigger than target.");
 	else
-		std::copy(assign.getArr(), assign.getArr() + assign._N, _arr);
+		_arr = std::multiset<unsigned int>(assign._arr.begin(), assign._arr.end());
 	return *this;
-} */
+}
 
 
 // Exceptions
@@ -47,64 +46,59 @@ const char * Span::tooFewNumbers::what() const throw()
 
 void Span::addNumber(unsigned int nbr)
 {
-	if (_size >= _N)
+	if (_arr.size() >= _N)
 		throw Span::full();
-	iterator value = _arr.insert(nbr);
-	++_size;
-	if (_size < 2)
-		return;
-	else if (_size == 2)
-		_shortestSpan = *(_arr.rbegin()) - *(_arr.begin());
-	else
-	{
-		iterator last_value = _arr.end();
-		last_value--;
-		if (value != last_value)
-		{
-			unsigned int shortest_test = *(++value) - *(--value);
-			if (shortest_test < _shortestSpan)
-				_shortestSpan = shortest_test;
-		}
-		if (value != _arr.begin())
-		{
-			unsigned int shortest_test = *(value) - *(--value);
-			if (shortest_test < _shortestSpan)
-				_shortestSpan = shortest_test;
-		}
-	}
+	_arr.insert(nbr);
 }
 
 unsigned int Span::longestSpan() const
 {
-	if (_size < 2)
+	if (_arr.size() < 2)
 		throw tooFewNumbers();
 	iterator last_value = _arr.end();
-	last_value--;
-	return (*last_value - *(_arr.begin()));
+	last_value--;	
+	return (*(_arr.rbegin()) - *(_arr.begin()));
 }
 
 unsigned int Span::shortestSpan() const
 {
-	if (_size < 2)
+	if (_arr.size() < 2)
 		throw tooFewNumbers();
-	return _shortestSpan;
+	
+	unsigned int shortSpan = longestSpan();
+	Span::iterator it = _arr.begin();
+	while(it != _arr.end())
+	{
+		unsigned int low = *it;
+		it++;
+		if (it == _arr.end())
+			break ;
+		unsigned int high = *it;
+		if (high - low < shortSpan)
+			shortSpan = high - low;
+	}
+	return shortSpan;
 }
 
-void Span::generate_rand(iterator first, iterator last)
+void Span::generate_rand()
 {
-	std::multiset<unsigned int>::size_type size = 0;
-	for (iterator i = first; i != last; i++)
-	{
-		size++;
-	}
-	_arr.erase(first, last);
+	std::srand(std::time(NULL));
+	std::multiset<unsigned int>::size_type size = _arr.size();
+	_arr.clear();
 	for (std::multiset<unsigned int>::size_type i = 0; i != size; i++)
 	{
 		_arr.insert(rand());
 	}
 }
 
-std::size_t Span::size()
+void Span::addNumber(const_iterator first, const_iterator last)
+{
+    if ( _arr.size() + std::distance(first, last) > _N )
+        throw Span::full();
+    _arr.insert(first, last);
+}
+
+std::multiset<unsigned int>::size_type Span::size()
 {
 	return _arr.size();
 }

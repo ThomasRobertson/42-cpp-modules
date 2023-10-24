@@ -82,12 +82,15 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
-	bigBigSpan.generate_rand(bigBigSpan.begin(), bigBigSpan.end());
+	Span BigRandom(BIG_SIZE);
+	BigRandom.generate_rand();
+	bigBigSpan.addNumber(BigRandom.begin(), BigRandom.end());
 	std::cout << "\nBig size total size : "<<bigBigSpan.size() << std::endl;
 	std::cout << "\nBig size shortest span : "<<bigBigSpan.shortestSpan() << std::endl;
 	std::cout << "Big size longuest span : "<< bigBigSpan.longestSpan() << std::endl;
 
-	bigBigSpan.generate_rand(bigBigSpan.begin(), bigBigSpan.end());
+	BigRandom.generate_rand();
+	bigBigSpan.addNumber(BigRandom.begin(), BigRandom.end());
 	std::cout << "\nBig size total size : "<<bigBigSpan.size() << std::endl;
 	std::cout << "\nBig size shortest span : "<<bigBigSpan.shortestSpan() << std::endl;
 	std::cout << "Big size longuest span : "<< bigBigSpan.longestSpan() << std::endl;

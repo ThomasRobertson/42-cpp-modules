@@ -6,11 +6,14 @@
 #include <set>
 #include <cstdlib>
 #include <algorithm>
+#include <limits>
+#include <ctime>
 
 class Span
 {
 	public:
 		typedef std::multiset<unsigned int>::iterator iterator;
+		typedef std::multiset<unsigned int>::const_iterator const_iterator;
 
 		// Constructors
 		Span(const size_t N);
@@ -33,16 +36,16 @@ class Span
 		void addNumber(unsigned int nbr);
 		unsigned int shortestSpan() const;
 		unsigned int longestSpan() const;
-		void generate_rand(iterator first, iterator last);
+		void generate_rand();
+		void addNumber(const_iterator first, const_iterator last);
 		iterator begin();
 		iterator end();
-		std::size_t size();
+		std::multiset<unsigned int>::size_type size();
 		//void fill(iterator first, iterator last, const unsigned int &nbr);
 		
 	private:
-		std::multiset<unsigned int>::size_type _N;
+		size_t _N;
 		std::multiset<unsigned int> _arr;
-		std::multiset<unsigned int>::size_type _size;
 		unsigned int _shortestSpan;
 	
 		Span();
