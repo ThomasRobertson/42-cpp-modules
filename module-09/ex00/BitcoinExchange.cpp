@@ -1,4 +1,5 @@
 #include "BitcoinExchange.hpp"
+#include <stdexcept>
 
 BitcoinExchange::BitcoinExchange()
 {
@@ -69,9 +70,24 @@ std::time_t BitcoinExchange::get_date(std::string input, std::string delimiter)
 	date.tm_sec = 0;
 	date.tm_isdst = -1;
 
+	struct tm copy;
+    copy.tm_sec = date.tm_sec;
+    copy.tm_min = date.tm_min;
+    copy.tm_hour = date.tm_hour;
+    copy.tm_mday = date.tm_mday;
+    copy.tm_mon = date.tm_mon;
+    copy.tm_year = date.tm_year;
+    copy.tm_isdst = date.tm_isdst;
+
 	std::time_t time = std::mktime(&date);
 	if (time == -1)
 		throw DateIsInvalid();
+	if (copy.tm_mday != date.tm_mday
+    	|| copy.tm_mon != date.tm_mon
+    	|| copy.tm_year != date.tm_year)
+    {
+		throw DateIsInvalid();
+	}
 
 	return time;
 }
@@ -83,11 +99,11 @@ float BitcoinExchange::get_value(std::string input, std::string delimiter)
 	float value;
 
 	if (!str2nbr(value, value_str))
-		throw ValueIsInvalid();
+		throw std::invalid_argument("bad input.");
 	if (delimiter == " | " && value > 1000 && integer.size() > 5)
-		throw ValueIsInvalid();
+		throw std::out_of_range("too large a number.");
 	if (value < 0)
-		throw ValueIsInvalid();
+		throw std::out_of_range("not a positive number.");
 	
 	return (value);
 }
@@ -134,7 +150,7 @@ const char * BitcoinExchange::FileIsInvalid::what() const throw()
 
 const char * BitcoinExchange::DateIsInvalid::what() const throw()
 {
-	return "Date is invalid";
+	return "date is invalid";
 }
 
 void BitcoinExchange::process_input(std::ifstream & input)
@@ -166,7 +182,7 @@ void BitcoinExchange::process_input(std::ifstream & input)
 		}
 		catch(const std::exception& e)
 		{
-			std::cout << "Error: bad input (" << e.what() << ") => " << input_str << '\n';
+			std::cout << "Error: " << e.what() << " => " << input_str << '\n';
 		}
 		input_str.clear();
 	}	
@@ -182,6 +198,8 @@ float BitcoinExchange::get_exchange_rate(std::time_t date)
 	{
 	}
 	echange_rates_t::iterator it = _echange_rates.lower_bound(date);
+	if (it == _echange_rates.begin())
+		throw DateIsInvalid();
 	--it;
 	return (it->second);
 }
