@@ -31,6 +31,11 @@ RPN::RPN(const char * str_input)
 
 	while ((pos = str.find(' ')) != std::string::npos)
 	{
+		if (str.substr(0, pos).length() == 0)
+		{
+			str.erase(0, pos + 1);
+			continue ;
+		}
 		_vec.push_back(str.substr(0, pos));
 		str.erase(0, pos + 1);
 	}
