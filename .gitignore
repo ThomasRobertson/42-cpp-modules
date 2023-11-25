@@ -25,6 +25,8 @@ obj/
 *.a
 *.log
 malloc_test
+.cache
+compile_commands.json
 
 # Specific files
 module-00/ex00/megaphone
