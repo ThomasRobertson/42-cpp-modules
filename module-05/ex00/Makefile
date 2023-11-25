@@ -17,7 +17,7 @@
 NAME= Bureaucrat
 
 CC= c++
-CXXFLAGS= -Wall -Werror -Wextra -Wpedantic -g3 -std=c++98 $(INCLUDE)
+CXXFLAGS= -Wall -Werror -Wextra -g3 -std=c++98 $(INCLUDE)
 LDFLAGS= 
 
 INCLUDE = -I$(INCLUDE_DIR)

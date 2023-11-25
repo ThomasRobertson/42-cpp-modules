@@ -101,4 +101,4 @@ bool AForm::canExecute(Bureaucrat const &b, AForm const &f) const
 	if (!f.getIsSigned())
 		throw AForm::FormNotSignedException();
 	return true;
-} 
+}
