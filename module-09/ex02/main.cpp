@@ -8,13 +8,12 @@ int main (int ac, char **av)
 		std::cout << "Error: Invalid number of args. \n";
 		return EXIT_FAILURE;
 	}
-    PmergeMe PMM;
     try {
-        PMM.get_values(av);
+        PmergeMe PMM(av);
+		PMM.sort();
     }
     catch (const std::exception& e) {
-        std::cerr << e.what();
+        std::cerr << e.what() << "\n";
     }
-	PMM.sort();
 	return EXIT_SUCCESS;
 }

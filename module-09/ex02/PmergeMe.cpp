@@ -40,11 +40,11 @@ void PmergeMe::get_values(char **av)
         lst.push_back(strtol(av[i], NULL, 10));
         vec.push_back(strtol(av[i], NULL, 10));
     }
-    _values_list = lst;
-    if (std::adjacent_find(lst.begin(), lst.end()) != lst.end())
+    _values_list = TPmergeMe<std::list<value_type> >(lst);
+    if (!no_duplicates_find(_values_list.get_values()))
         throw std::invalid_argument("Duplicates find in std::list.");
-    _value_vector = vec;
-    if (std::adjacent_find(vec.begin(), vec.end()) != vec.end())
+    _value_vector = TPmergeMe<std::vector<value_type> >(vec);
+    if (!no_duplicates_find(_value_vector.get_values()))
         throw std::invalid_argument("Duplicates find in std::vector.");
 }
 

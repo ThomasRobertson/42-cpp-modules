@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <iostream>
 #include <list>
@@ -9,7 +10,6 @@
 class PmergeMe
 {
 	public :
-	PmergeMe();
     PmergeMe(char **av);
 	PmergeMe(const PmergeMe & copy);
 	~PmergeMe();
@@ -20,6 +20,7 @@ class PmergeMe
 	void sort();
 
 	private :
+	PmergeMe();
 	TPmergeMe<std::list<value_type> > _values_list;
 	TPmergeMe<std::vector<value_type> > _value_vector;
 
@@ -38,11 +39,20 @@ class PmergeMe
         typename T::value_type value = list.front();
         for (typename T::iterator it = list.begin(); it != list.end(); it++)
         {
-            if (it == list.begin())
-                continue ;
-            if (*it < value)
+            if (it != list.begin() && *it < value)
                 return false;
+			value = *it;
         }
         return true;
     }
+	template<class T>
+	bool no_duplicates_find(T numbers)
+	{
+		for (typename T::iterator it = numbers.begin(); it != numbers.end(); it++)
+		{
+			if (std::count(numbers.begin(), numbers.end(), *it) != 1)
+				return false;
+		}
+		return true;
+	}
 };
