@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <ctime>
 #include <iostream>
 #include <list>
 #include <string>
@@ -15,14 +16,15 @@ class PmergeMe {
 	~PmergeMe();
 	PmergeMe &operator=(const PmergeMe &assign);
 
-	void getValues(char **av);
-	static void validateValues(char *av);
-	void sort();
+	bool sort();
 
    private:
 	PmergeMe();
 	TPmergeMe<std::list<valueType> > _valuesList;
 	TPmergeMe<std::vector<valueType> > _valuesVector;
+
+	void validateValues(char *av);
+	void getValues(char **av);
 
 	template <class T>
 	void printValue(T value) {

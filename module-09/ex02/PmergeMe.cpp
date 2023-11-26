@@ -1,5 +1,7 @@
 #include "PmergeMe.hpp"
 
+#include "TPmergeMe.hpp"
+
 PmergeMe::PmergeMe() {}
 
 PmergeMe::PmergeMe(const PmergeMe &copy) { *this = copy; }
@@ -42,19 +44,46 @@ void PmergeMe::validateValues(char *av) {
 	}
 }
 
-void PmergeMe::sort() {
-	printValue(_valuesList.getValues());
-	_valuesList.sort();
-	if (isSorted(_valuesList.getValues()))
-		std::cout << "List is sorted.\n";
-	else
-		std::cout << "List is NOT sorted.\n";
+bool PmergeMe::sort() {
+	timespec start, end;
+
+	std::cout << "Unsorted values : ";
 	printValue(_valuesList.getValues());
 
+	// std::clock_t start = std::clock();
+	// _valuesList.sort();
+	// std::clock_t end = std::clock();
+	// double listDuraction = (end - start) / static_cast<double>(CLOCKS_PER_SEC) * 1e6;
+
+	// start = std::clock();
+	// _valuesVector.sort();
+	// end = std::clock();
+	// double vectorDuraction = (end - start) / static_cast<double>(CLOCKS_PER_SEC) * 1e6;
+
+	clock_gettime(CLOCK_REALTIME, &start);
+
+	_valuesList.sort();
+
+	clock_gettime(CLOCK_REALTIME, &end);
+	double listDuraction = ((double)(end.tv_sec - start.tv_sec) * 1e9 + (double)(end.tv_nsec - start.tv_nsec)) / 1000;
+
+	clock_gettime(CLOCK_REALTIME, &start);
+
 	_valuesVector.sort();
-	if (isSorted(_valuesVector.getValues()))
-		std::cout << "Vector is sorted.\n";
+
+	clock_gettime(CLOCK_REALTIME, &end);
+	double vectorDuraction = ((double)(end.tv_sec - start.tv_sec) * 1e9 + (double)(end.tv_nsec - start.tv_nsec)) / 1000;
+
+	std::cout << "Sorted values : ";
+	printValue(_valuesList.getValues());
+
+	std::cout << "Execution time to sort " << _valuesList.getValues().size() << " element(s) in a std::list"
+			  << " : " << listDuraction << " microseconds\n";
+	std::cout << "Execution time to sort " << _valuesVector.getValues().size() << " element(s) in a std::vector"
+			  << " : " << vectorDuraction << " microseconds\n";
+
+	if (isSorted(_valuesList.getValues()) && isSorted(_valuesVector.getValues()))
+		return true;
 	else
-		std::cout << "Vector is NOT sorted.\n";
-	printValue(_valuesVector.getValues());
+		return false;
 }

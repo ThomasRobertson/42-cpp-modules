@@ -9,10 +9,14 @@ int main(int ac, char** av) {
 	}
 	try {
 		PmergeMe PMM(av);
-		PMM.sort();
+		bool sortReturnValue = PMM.sort();
+		if (sortReturnValue == true)
+			return EXIT_SUCCESS;
+		else {
+			return EXIT_FAILURE;
+		}
 	} catch (const std::exception& e) {
-		std::cerr << e.what() << "\n";
+		std::cout << e.what() << "\n";
 		return EXIT_FAILURE;
 	}
-	return EXIT_SUCCESS;
 }

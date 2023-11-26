@@ -119,16 +119,16 @@ class TPmergeMe {
 		}
 
 		std::pair<T, T> pairs = createPairs(value);
-		T main_list = pairs.first;
-		T pend_list = pairs.second;
-		main_list = sortList(main_list);
+		T mainList = pairs.first;
+		T pendList = pairs.second;
+		mainList = sortList(mainList);
 
-		binarySort(main_list, pend_list);
+		binarySort(mainList, pendList);
 		if (!is_even) {
-			T straggler_list;
-			straggler_list.push_back(straggler);
-			binarySort(main_list, straggler_list);
+			T stragglerList;
+			stragglerList.push_back(straggler);
+			binarySort(mainList, stragglerList);
 		}
-		return (main_list);
+		return (mainList);
 	}
 };
